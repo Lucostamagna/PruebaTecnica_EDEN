@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 export default function MyStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="OnBoarding" component={MyBottomTab}  options={{
+      <Stack.Screen name="OnBoarding" component={OnBoardingScreen}  options={{
             headerShown: false, 
           }}/>
       <Stack.Screen name="Login" component={LoginScreen} />
