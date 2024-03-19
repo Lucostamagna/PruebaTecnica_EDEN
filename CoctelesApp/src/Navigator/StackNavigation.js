@@ -14,7 +14,9 @@ export default function MyStack() {
       <Stack.Screen name="OnBoarding" component={OnBoardingScreen}  options={{
             headerShown: false, 
           }}/>
-      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Login" component={LoginScreen}options={{
+            headerShown: false, 
+          }}/> 
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Search" component={FavouriteScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
