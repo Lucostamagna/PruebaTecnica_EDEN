@@ -12,9 +12,10 @@ const MyButton = styled.TouchableOpacity`
   background-color: ${Colors.bottonLogin};
   border-radius: 30px;
   width: 85%;
-  height: 26%;
+  height: 6%;
   align-self: center;
   padding: 15px;
+  margin-top: 25%;
 `;
 const MyText = styled.Text`
   font-size: 16px;

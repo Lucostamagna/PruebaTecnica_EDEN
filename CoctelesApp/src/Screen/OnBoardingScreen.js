@@ -10,12 +10,12 @@ const OnBoardingScreen = () => {
   return (
     <MyView>
       <StyledImage source={require("../../assets/logoCoctel.png")} />
-      <ButtonView>
+   
         <Button
           title={"Iniciar sesión"}
           onPress={() => navigation.navigate("Login")}
         />
-      </ButtonView>
+      
     </MyView>
   );
 };
