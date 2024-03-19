@@ -1,10 +1,12 @@
-import React from 'react'
-import { View } from 'react-native'
+import React from "react";
+import { Text, View } from "react-native";
 
 const SearchScreen = () => {
   return (
-   <View> SEARCH</View>
-  )
-}
+    <View>
+      <Text>SearchScreen</Text>
+    </View>
+  );
+};
 
-export default SearchScreen
+export default SearchScreen;

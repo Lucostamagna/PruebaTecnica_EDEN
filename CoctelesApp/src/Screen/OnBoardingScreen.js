@@ -1,10 +1,12 @@
-import React from 'react'
-import { View } from 'react-native';
+import React from "react";
+import { View, Text } from "react-native";
 
 const OnBoardingScreen = () => {
   return (
-   <View> OnBoardingScreen</View>
-  )
-}
+    <View>
+      <Text> OnBoardingScreen</Text>
+    </View>
+  );
+};
 
-export default OnBoardingScreen
+export default OnBoardingScreen;
