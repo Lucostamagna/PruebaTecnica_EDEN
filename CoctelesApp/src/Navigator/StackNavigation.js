@@ -10,7 +10,9 @@ const Stack = createStackNavigator();
 export default function MyStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="OnBoarding" component={OnBoardingScreen} />
+      <Stack.Screen name="OnBoarding" component={OnBoardingScreen}  options={{
+            headerShown: false, 
+          }}/>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Search" component={SearchScreen} />
