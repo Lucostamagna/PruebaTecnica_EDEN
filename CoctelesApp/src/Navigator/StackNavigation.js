@@ -11,13 +11,27 @@ const Stack = createStackNavigator();
 export default function MyStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="OnBoarding" component={OnBoardingScreen}  options={{
-            headerShown: false, 
-          }}/>
-      <Stack.Screen name="Login" component={LoginScreen}options={{
-            headerShown: false, 
-          }}/> 
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="OnBoarding"
+        component={OnBoardingScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Root"
+        component={MyBottomTab}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen name="Search" component={FavouriteScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>

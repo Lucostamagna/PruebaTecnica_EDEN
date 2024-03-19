@@ -8,6 +8,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import Input from "../Components/Input";
 
 const LoginScreen = () => {
+  const navigation = useNavigation();
   return (
     <MyView>
       <StyledImage source={require("../../assets/logoPequeño.png")} />
@@ -20,7 +21,7 @@ const LoginScreen = () => {
         <TouchableOpacity activeOpacity={0.8}></TouchableOpacity>
       </ViewContainer>
       <TextPassword> Olvidé mi contraseña </TextPassword>
-      <Button title={"Iniciar sesión"} />
+      <Button title={"Iniciar sesión"} onPress={() => navigation.navigate("Root")}/>
     </MyView>
   );
 };
