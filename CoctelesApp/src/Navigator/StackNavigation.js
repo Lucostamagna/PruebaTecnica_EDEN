@@ -5,12 +5,16 @@ import HomeScreen from "../Screen/HomeScreen";
 import FavouriteScreen from "../Screen/FavouriteScreen";
 import ProfileScreen from "../Screen/ProfileScreen";
 import MyBottomTab from "./BottomTabNavigation";
+import CustomHeader from "../Components/CustomHeader";
 
 const Stack = createStackNavigator();
 
 export default function MyStack() {
   return (
-    <Stack.Navigator>
+    
+    <Stack.Navigator
+  
+    >
       <Stack.Screen
         name="OnBoarding"
         component={OnBoardingScreen}
@@ -29,7 +33,8 @@ export default function MyStack() {
         name="Root"
         component={MyBottomTab}
         options={{
-          headerShown: false,
+        header: () => <CustomHeader/>,
+          
         }}
       />
       <Stack.Screen name="Search" component={FavouriteScreen} />
