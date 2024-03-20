@@ -13,7 +13,7 @@ const CustomHeader = () => {
 }
 const Container = styled(View)`
   flex-direction: row;
-  height: 45%;
+  height: 100px;
   align-items: center;
   background-color: ${Colors.background};
 `;
@@ -21,6 +21,7 @@ const CustomImage = styled(Image)`
   width: 50px;
   height: 40px;
   margin-left: 15px;
+
 `;
 const MyText = styled(Text)`
   font-size: 20px;

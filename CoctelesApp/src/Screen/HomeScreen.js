@@ -1,57 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {searchCocktailByName, searchCocktailByIngredients, fetchRandomCocktail , fetchCategoryCocktail} from "../Api/Request"
+import styled from "styled-components/native";
+import {
+  searchCocktailByName,
+  searchCocktailByIngredients,
+  fetchRandomCocktail,
+  fetchCategoryCocktail,
+} from "../Api/Request";
 
-import { View, Text, Button, FlatList, Image } from "react-native";
+import { View, Text, Button, FlatList, Image, StyleSheet, ScrollView } from "react-native";
+import SearchBotton from "../Components/SearchBotton";
 const HomeScreen = () => {
   const [cocktails, setCocktails] = useState([]);
 
-  // //POR NOMBRE
-  // const searchCocktailByName = async (name) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`
-  //     );
-  //     setCocktails(response.data.drinks);
-  //   } catch (error) {
-  //     console.error("Error searching cocktail by name:", error);
-  //   }
-  // };
-  // //INGREDIENTES no anda
-  // const searchCocktailByIngredients = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `https://www.thecocktaildb.com/api/json/v1/1/search.php?i=vodka`
-  //     );
-
-  //     setCocktails(response.data.ingredients);
-  //   } catch (error) {
-  //     console.error("Error searching cocktail by name:", error);
-  //   }
-  // };
-  // //mas ELEGIDO
-
-  // const fetchRandomCocktail = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "https://www.thecocktaildb.com/api/json/v1/1/random.php"
-  //     );
-  //     setCocktails(response.data.drinks);
-  //   } catch (error) {
-  //     console.error("Error fetching random cocktail:", error);
-  //   }
-  // };
-
-  // const fetchCategoryCocktail = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Ordinary_Drink"
-  //     );
-  //     setCocktails(response.data.drinks);
-  //   } catch (error) {
-  //     console.error("Error fetching random cocktail:", error);
-  //   }
-  // };
   const handleSearchCocktailByName = async () => {
     const drinks = await searchCocktailByName("margarita");
     setCocktails(drinks);
@@ -72,48 +33,98 @@ const HomeScreen = () => {
     setCocktails(categoryDrinks);
   };
 
-  
   return (
-    <View>
-      <Text style={{ fontSize: 24, fontWeight: "bold", textAlign: "center" }}>
-        Cocktails
-      </Text>
-      <Button
-        title="Nombre"
-        onPress={() => handleSearchCocktailByName("margarita")}
-      />
-      <Button
-        title="Buscar Ingrediente"
-        onPress={handleSearchCocktailByIngredients }
-      />
-      <Button title="mas elegido" onPress={ handleFetchRandomCocktail} />
-      <Button title="Categoria" onPress={handleFetchCategoryCocktail } />
-
+    <MyView>
+      <TextCoctel>Encuentra las mejores recetas en Cócteles</TextCoctel>
+      
+      <ButtonContainer>
+        <TextSearch> Filtros</TextSearch>
+        
+        <SearchBotton
+          title={"Por nombre"}
+          onPress={() => handleSearchCocktailByName("margarita")}
+        />
+        <SearchBotton
+          title={"Por ingrediente"}
+          onPress={handleSearchCocktailByIngredients}
+        />
+        <SearchBotton title={"Más elegido"} onPress={handleFetchRandomCocktail} />
+        <SearchBotton title={"Por categoría"} onPress={handleFetchCategoryCocktail} />
+      </ButtonContainer>
+   
+      <View>
       <FlatList
         data={cocktails}
-        horizontal={true}
+        horizontal
         renderItem={({ item }) => (
-          <View style={{ flexDirection: "row", padding: 10 }}>
-            <Image
-              source={{ uri: item.strDrinkThumb }}
-              style={{ width: 50, height: 50, marginRight: 10 }}
-            />
-            <View>
-              <Text style={{ fontWeight: "bold" }}>{item.strDrink}</Text>
-              <Text style={{ fontSize: 30, backgroundColor: "red" }}>
-                {item.strDescription}
-              </Text>
-              <Text>{item.strIngredient1}</Text>
-              <Text style={{ fontSize: 30, backgroundColor: "red" }}>
-                {item.strDescription}
-              </Text>
-            </View>
-          </View>
+          <CardContainer>
+            <CocktailImage source={{ uri: item.strDrinkThumb }} />
+            <CocktailTitle>{item.strDrink}</CocktailTitle>
+            <DescriptionText>{item.strDescription}</DescriptionText>
+            <Text>{item.strIngredient1}</Text>
+          </CardContainer>
         )}
         // keyExtractor={(item) => item.idDrink.toString()}
       />
-    </View>
+      </View>
+     
+    </MyView>
   );
 };
 
+const MyView = styled.View`
+  background-color: white;
+  flex: 1;
+`;
+const CardContainer = styled.View`
+  background-color: white;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: lightgray;
+  margin: 10px;
+  padding: 10px;
+  elevation: 3; /* Agrega sombra en Android */
+  shadow-color: black; /* Agrega sombra en iOS */
+  shadow-offset: {
+    width: 0px;
+    height: 2px;
+  }
+  shadow-opacity: 0.25;
+  shadow-radius: 3.84px;
+`;
+const TextCoctel = styled.Text`
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+  text-align: left;
+  margin: 12px;
+`;
+const ButtonContainer = styled.View`
+  flex-direction: row;
+  margin-right: 8px;
+  
+`;
+const TextSearch =styled.Text`
+font-size: 22px;
+margin-right: 15px;
+margin: 10px;
+`;
+const CocktailImage = styled.Image`
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+`;
+
+const CocktailTitle = styled.Text`
+  font-weight: bold;
+  font-size: 16px;
+`;
+
+const DescriptionText = styled.Text`
+  font-size: 16px;
+  background-color: red;
+  padding: 5px;
+  margin-top: 5px;
+`;
 export default HomeScreen;
