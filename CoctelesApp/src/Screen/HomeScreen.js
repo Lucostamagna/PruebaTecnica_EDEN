@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { FlatList, Text, View } from "react-native";
 import styled from "styled-components/native";
+import SearchBotton from "../Components/SearchBotton";
 import {
   searchCocktailByName,
   searchCocktailByIngredients,
@@ -8,8 +9,6 @@ import {
   fetchCategoryCocktail,
 } from "../Api/Request";
 
-import { View, Text, Button, FlatList, Image, StyleSheet, ScrollView } from "react-native";
-import SearchBotton from "../Components/SearchBotton";
 const HomeScreen = () => {
   const [cocktails, setCocktails] = useState([]);
 
@@ -36,10 +35,8 @@ const HomeScreen = () => {
   return (
     <MyView>
       <TextCoctel>Encuentra las mejores recetas en Cócteles</TextCoctel>
-      
       <ButtonContainer>
         <TextSearch> Filtros</TextSearch>
-        
         <SearchBotton
           title={"Por nombre"}
           onPress={() => handleSearchCocktailByName("margarita")}
@@ -48,49 +45,75 @@ const HomeScreen = () => {
           title={"Por ingrediente"}
           onPress={handleSearchCocktailByIngredients}
         />
-        <SearchBotton title={"Más elegido"} onPress={handleFetchRandomCocktail} />
-        <SearchBotton title={"Por categoría"} onPress={handleFetchCategoryCocktail} />
+        <SearchBotton
+          title={"Más elegido"}
+          onPress={handleFetchRandomCocktail}
+        />
+        <SearchBotton
+          title={"Por categoría"}
+          onPress={handleFetchCategoryCocktail}
+        />
       </ButtonContainer>
-   
-      <View>
+
       <FlatList
         data={cocktails}
         horizontal
+        showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
-          <CardContainer>
-            <CocktailImage source={{ uri: item.strDrinkThumb }} />
-            <CocktailTitle>{item.strDrink}</CocktailTitle>
-            <DescriptionText>{item.strDescription}</DescriptionText>
-            <Text>{item.strIngredient1}</Text>
-          </CardContainer>
+          <View>
+            <Text> {item.strIngredient}</Text>
+            <Text>{item.strDescription}</Text>
+            <CocktailImage
+              resizeMode="cover"
+              source={{ uri: item.strDrinkThumb }}
+            />
+            <Text>{item.strDrink}</Text>
+            <DescriptionText numberOfLines={4} ellipsizeMode="tail">
+              {item.strInstructions}
+            </DescriptionText>
+          </View>
         )}
         // keyExtractor={(item) => item.idDrink.toString()}
       />
-      </View>
-     
     </MyView>
   );
 };
 
 const MyView = styled.View`
-  background-color: white;
   flex: 1;
 `;
+const Separator = styled.View`
+  width: 10px; // Ajusta el espacio entre las tarjetas
+`;
 const CardContainer = styled.View`
-  background-color: white;
+  background-color: blue;
+
   border-radius: 10px;
-  border-width: 1px;
-  border-color: lightgray;
-  margin: 10px;
+
   padding: 10px;
-  elevation: 3; /* Agrega sombra en Android */
-  shadow-color: black; /* Agrega sombra en iOS */
+  width: 55%;
+  height: 100%;
+  elevation: 3;
+
+  shadow-color: black;
   shadow-offset: {
     width: 0px;
     height: 2px;
   }
   shadow-opacity: 0.25;
   shadow-radius: 3.84px;
+`;
+const CocktailImage = styled.Image`
+  width: 100%;
+  height: 200px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+`;
+const CocktailTitle = styled.Text`
+  font-weight: bold;
+  font-size: 28px;
+  text-align: center;
+  margin-top: 10px;
 `;
 const TextCoctel = styled.Text`
   font-size: 30px;
@@ -103,28 +126,17 @@ const TextCoctel = styled.Text`
 const ButtonContainer = styled.View`
   flex-direction: row;
   margin-right: 8px;
-  
 `;
-const TextSearch =styled.Text`
-font-size: 22px;
-margin-right: 15px;
-margin: 10px;
-`;
-const CocktailImage = styled.Image`
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-`;
-
-const CocktailTitle = styled.Text`
-  font-weight: bold;
-  font-size: 16px;
+const TextSearch = styled.Text`
+  font-size: 22px;
+  margin-right: 15px;
+  margin: 10px;
 `;
 
 const DescriptionText = styled.Text`
   font-size: 16px;
-  background-color: red;
-  padding: 5px;
   margin-top: 5px;
+  overflow: hidden;
+  width: 150px;
 `;
 export default HomeScreen;
