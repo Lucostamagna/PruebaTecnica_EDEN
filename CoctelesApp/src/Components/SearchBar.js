@@ -30,6 +30,7 @@ const Container = styled.View`
   align-items: center;
   justify-content: center;
   margin-vertical: 10px;
+  margin-top: 19px;
 `;
 
 const InputContainer = styled.View`

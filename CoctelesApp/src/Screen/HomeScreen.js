@@ -40,7 +40,7 @@ const HomeScreen = () => {
   return (
     <MyView>
       <TextCoctel>Encuentra las mejores recetas en Cócteles</TextCoctel>
-      
+      <TextTragos> ¿Qué tragos te gustaría preparar hoy?</TextTragos>
       <SearchBar/>
       <ButtonContainer>
         <TextSearch> Filtros</TextSearch>
@@ -130,9 +130,20 @@ const TextCoctel = styled.Text`
   text-align: left;
   margin: 12px;
 `;
+const TextTragos = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+ 
+  margin-top: 15px;
+  text-align: left;
+  margin: 12px;
+`;
+
 const ButtonContainer = styled.View`
   flex-direction: row;
   margin-right: 8px;
+  margin-top: 10px;
+  margin-bottom: -60px;
 `;
 const TextSearch = styled.Text`
   font-size: 22px;

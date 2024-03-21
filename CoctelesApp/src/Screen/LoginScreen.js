@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../Constant/Color";
@@ -6,22 +6,44 @@ import Button from "../Components/Botton";
 import { Feather } from "@expo/vector-icons";
 import { Text, TouchableOpacity, View } from "react-native";
 import Input from "../Components/Input";
+import Login from "../Api/Index";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    Login({ email, password })
+      .then((user) => {
+        console.log("Inicio de sesión exitoso:", user);
+        alert("Inicio de sesión exitoso");
+        navigation.navigate("Root");
+      })
+      .catch((error) => {
+        alert("Email o contraseña incorrectos", error);
+      });
+  };
+
+ 
   return (
     <MyView>
       <StyledImage source={require("../../assets/logoPequeño.png")} />
       <MyText>Ingresa tus datos</MyText>
       <ViewContainer>
         <TextInput> Correo electrónico </TextInput>
-        <Input label={"Email"} />
+        <Input label={"Email"} value={email} onChangeText={setEmail} />
         <TextInput> Contraseña </TextInput>
-        <Input label={"Contraseña"} />
+        <Input
+          label={"Contraseña"}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={true}
+        />
         <TouchableOpacity activeOpacity={0.8}></TouchableOpacity>
       </ViewContainer>
       <TextPassword> Olvidé mi contraseña </TextPassword>
-      <Button title={"Iniciar sesión"} onPress={() => navigation.navigate("Root")}/>
+      <Button title={"Iniciar sesión"} onPress={handleLogin} />
     </MyView>
   );
 };
