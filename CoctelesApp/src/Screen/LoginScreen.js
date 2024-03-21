@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from "../Constant/Color";
 import Button from "../Components/Botton";
 import { Feather } from "@expo/vector-icons";
 import Input from "../Components/Input";
 import Login from "../Api/Index";
+import { TouchableOpacity, Text} from "react-native";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -16,13 +18,12 @@ const LoginScreen = () => {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  const toggleShowPassword2 = () => {
-    setShowPassword2(!showPassword2);
-  };
-
+ 
   const handleLogin = () => {
     Login({ email, password })
       .then((user) => {
+        AsyncStorage.setItem('userData', JSON.stringify(user.data))
+        console.log("Datos del usuario guardados en AsyncStorage:", user.data);
         console.log("Inicio de sesión exitoso:", user);
         alert("Inicio de sesión exitoso");
         navigation.navigate("Root");
@@ -55,8 +56,12 @@ const LoginScreen = () => {
             />
           </MyTouchableOpacity>
         </InputContainer>
+        <TextPassword> Olvidé mi contraseña </TextPassword>
       </ViewContainer>
-      <TextPassword> Olvidé mi contraseña </TextPassword>
+      
+       
+    
+
       <Button title={"Iniciar sesión"} onPress={handleLogin} />
     </MyView>
   );

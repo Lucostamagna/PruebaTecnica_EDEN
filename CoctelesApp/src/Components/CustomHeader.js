@@ -1,13 +1,31 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, Image } from "react-native";
 import { Colors } from "../Constant/Color";
 import styled from "styled-components/native";
 
 const CustomHeader = () => {
+  const [userData, setUserData] = useState(null);
+  
+  useEffect(() => {
+    const getUserDataFromStorage = async () => {
+      try {
+        const userDataString = await AsyncStorage.getItem('userData');
+        if (userDataString !== null) {
+          const userDataObject = JSON.parse(userDataString);
+          setUserData(userDataObject);
+        }
+      } catch (err) {
+        console.error("Error al cargar los datos:", err);
+      }
+    };
+     getUserDataFromStorage();
+    }, []);
+
   return (
     <Container>
         <CustomImage source={require('../../assets/logoPequeño.png')} />
-        <MyText>Word1</MyText>
+        {userData && <MyText> Hola, {userData.name}!</MyText>}      
     </Container>
   )
 }
