@@ -4,7 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../Constant/Color";
 import Button from "../Components/Botton";
 import { Feather } from "@expo/vector-icons";
-import { Text, TouchableOpacity, View } from "react-native";
 import Input from "../Components/Input";
 import Login from "../Api/Index";
 
@@ -12,6 +11,14 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const toggleShowPassword2 = () => {
+    setShowPassword2(!showPassword2);
+  };
 
   const handleLogin = () => {
     Login({ email, password })
@@ -25,7 +32,6 @@ const LoginScreen = () => {
       });
   };
 
- 
   return (
     <MyView>
       <StyledImage source={require("../../assets/logoPequeño.png")} />
@@ -34,13 +40,21 @@ const LoginScreen = () => {
         <TextInput> Correo electrónico </TextInput>
         <Input label={"Email"} value={email} onChangeText={setEmail} />
         <TextInput> Contraseña </TextInput>
-        <Input
-          label={"Contraseña"}
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={true}
-        />
-        <TouchableOpacity activeOpacity={0.8}></TouchableOpacity>
+        <InputContainer>
+          <Input
+            label={"Contraseña"}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+          />
+          <MyTouchableOpacity onPress={toggleShowPassword} activeOpacity={0.8}>
+            <Feather
+              name={showPassword ? "eye" : "eye-off"}
+              size={24}
+              color="#323646"
+            />
+          </MyTouchableOpacity>
+        </InputContainer>
       </ViewContainer>
       <TextPassword> Olvidé mi contraseña </TextPassword>
       <Button title={"Iniciar sesión"} onPress={handleLogin} />
@@ -72,6 +86,15 @@ const TextInput = styled.Text`
   color: white;
   font-size: 15px;
   margin-bottom: 8px;
+`;
+const InputContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+const MyTouchableOpacity = styled.TouchableOpacity`
+  position: absolute;
+  right: 50px;
 `;
 
 const TextPassword = styled.Text`
