@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, ScrollView, Text, TouchableOpacity, View,TextInput} from "react-native";
 import styled from "styled-components/native";
 import SearchBotton from "../Components/SearchBotton";
 import {
@@ -11,12 +11,13 @@ import {
 import SearchBar from "../Components/SearchBar";
 
 const HomeScreen = () => {
+  const [searchTerm, setSearchTerm] = useState('');
   const [cocktails, setCocktails] = useState([]);
-
+ 
   useEffect(() => {
     handleSearchCocktailByName("margarita");
   }, []);
-
+  
   const handleSearchCocktailByName = async () => {
     const drinks = await searchCocktailByName("margarita");
     setCocktails(drinks);
@@ -36,12 +37,45 @@ const HomeScreen = () => {
     const categoryDrinks = await fetchCategoryCocktail();
     setCocktails(categoryDrinks);
   };
+  const handleSearch = async () => {
+    if (searchTerm.trim() !== '') {
+      try {
+        const result = await searchCocktailByName(searchTerm.trim());
+        setCocktails(result || []);
+      } catch (error) {
+        console.error("Error searching for cocktails:", error);
+      }
+    } else {
+      
+      setCocktails([]);
+    }
+  };
 
+  const CocktailCard = ({ item }) => {
+    return (
+      <CardContainer>
+        <Text>{item.strIngredient}</Text>
+        <Text>{item.strDescription}</Text>
+        <CocktailImage  source={{ uri: item.strDrinkThumb }} />
+        <TextTitle>{item.strDrink}</TextTitle>
+        <DescriptionText numberOfLines={4} ellipsizeMode="tail">
+          {item.strInstructions}
+        </DescriptionText>
+        <ButtonReceta >
+          <Text> hola</Text>
+         </ButtonReceta >
+      </CardContainer>
+    );
+  };
   return (
+    <ScrollView>
     <MyView>
       <TextCoctel>Encuentra las mejores recetas en Cócteles</TextCoctel>
       <TextTragos> ¿Qué tragos te gustaría preparar hoy?</TextTragos>
-      <SearchBar/>
+      <SearchBar setSearchTerm={setSearchTerm} handleSearch={handleSearch} />
+
+<View style={{ marginBottom:-60, height:150}}>
+      <ScrollView horizontal   showsHorizontalScrollIndicator={false} >
       <ButtonContainer>
         <TextSearch> Filtros</TextSearch>
         <SearchBotton
@@ -61,67 +95,55 @@ const HomeScreen = () => {
           onPress={handleFetchCategoryCocktail}
         />
       </ButtonContainer>
+      </ScrollView>
+      </View>
 
+
+<View style={{marginBottom:'5%', marginTop:'1%'}}>
       <FlatList
         data={cocktails}
         horizontal
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <View>
-            <Text> {item.strIngredient}</Text>
-            <Text>{item.strDescription}</Text>
-            <CocktailImage
-              resizeMode="cover"
-              source={{ uri: item.strDrinkThumb }}
-            />
-            <Text>{item.strDrink}</Text>
-            <DescriptionText numberOfLines={4} ellipsizeMode="tail">
-              {item.strInstructions}
-            </DescriptionText>
-          </View>
-        )}
-        // keyExtractor={(item) => item.idDrink.toString()}
-      />
+        renderItem={({ item }) => <CocktailCard item={item} />}
+
+        />
+         </View>
     </MyView>
+    </ScrollView>
+    
   );
 };
 
 const MyView = styled.View`
   flex: 1;
+ 
 `;
-const Separator = styled.View`
-  width: 10px; // Ajusta el espacio entre las tarjetas
-`;
+
 const CardContainer = styled.View`
-  background-color: blue;
-
+  background-color: white;
+  overflow: hidden;
   border-radius: 10px;
-
-  padding: 10px;
-  width: 55%;
-  height: 100%;
-  elevation: 3;
-
-  shadow-color: black;
-  shadow-offset: {
-    width: 0px;
-    height: 2px;
-  }
-  shadow-opacity: 0.25;
-  shadow-radius: 3.84px;
+  padding: 10px; 
+  margin-vertical: 1px;
+  margin-horizontal: 5px;
+  border-width: 1px;
+  border-color: #ddd; /* Color del borde */
 `;
+
 const CocktailImage = styled.Image`
-  width: 100%;
-  height: 200px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  width: 230px; 
+  height: 160px; 
+  margin-top: -50px;
+  border-top-left-radius: 15px; /* Redondea el borde superior izquierdo */
+  border-top-right-radius: 15px;
 `;
-const CocktailTitle = styled.Text`
-  font-weight: bold;
-  font-size: 28px;
-  text-align: center;
-  margin-top: 10px;
+
+const TextTitle = styled.Text`
+font-size: 20px;
+margin-top: 5px;
+font-weight: bold;
 `;
+
 const TextCoctel = styled.Text`
   font-size: 30px;
   font-weight: bold;
@@ -143,7 +165,7 @@ const ButtonContainer = styled.View`
   flex-direction: row;
   margin-right: 8px;
   margin-top: 10px;
-  margin-bottom: -60px;
+  margin-bottom: -5px;
 `;
 const TextSearch = styled.Text`
   font-size: 22px;
@@ -156,5 +178,14 @@ const DescriptionText = styled.Text`
   margin-top: 5px;
   overflow: hidden;
   width: 150px;
+`;
+const ButtonReceta = styled.TouchableOpacity`
+  background-color: yellow;
+  border-radius: 20px;
+  padding: 15px;
+  width: 100%;
+  height: 10%;
+  align-self: center;
+  margin-top: 20px;
 `;
 export default HomeScreen;

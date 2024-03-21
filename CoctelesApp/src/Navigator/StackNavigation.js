@@ -6,6 +6,7 @@ import FavouriteScreen from "../Screen/FavouriteScreen";
 import ProfileScreen from "../Screen/ProfileScreen";
 import MyBottomTab from "./BottomTabNavigation";
 import CustomHeader from "../Components/CustomHeader";
+import SeacrhScreen from "../Screen/SeacrhScreen";
 
 const Stack = createStackNavigator();
 
@@ -37,8 +38,9 @@ export default function MyStack() {
           
         }}
       />
-      <Stack.Screen name="Search" component={FavouriteScreen} />
+      <Stack.Screen name="Favourite" component={FavouriteScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Search" component={SeacrhScreen} />
     </Stack.Navigator>
   );
 }

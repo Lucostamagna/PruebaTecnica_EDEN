@@ -10,17 +10,20 @@ const SearchBotton= ({ title, onPress }) => {
 };
 
 const MyButton = styled.TouchableOpacity`
-  background-color:${(props) => (props.disabled ? Colors.gray : "white")};
+background-color: ${(props) => (props.disabled ? Colors.background: "white")};
   border-radius: 30px;
+  flex: 1;
   border-color: gray;
   border-width: 2px;
-  width: 30%;
-  height: 30%;
-  
- justify-content:center;
-  margin-top: 5px;
+  width: 25%;
+  height: 35%;
+  padding: 10px;
+  justify-content: center;
+ 
   margin-right: 8px;
-  align-items: center; 
+ 
+  align-items: center;
+
 `;
 const MyText = styled.Text`
   font-size: 15px;
