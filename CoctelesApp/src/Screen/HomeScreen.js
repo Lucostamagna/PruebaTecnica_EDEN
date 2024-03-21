@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, Text, View } from "react-native";
 import styled from "styled-components/native";
 import SearchBotton from "../Components/SearchBotton";
@@ -8,9 +8,14 @@ import {
   fetchRandomCocktail,
   fetchCategoryCocktail,
 } from "../Api/Request";
+import SearchBar from "../Components/SearchBar";
 
 const HomeScreen = () => {
   const [cocktails, setCocktails] = useState([]);
+
+  useEffect(() => {
+    handleSearchCocktailByName("margarita");
+  }, []);
 
   const handleSearchCocktailByName = async () => {
     const drinks = await searchCocktailByName("margarita");
@@ -35,6 +40,8 @@ const HomeScreen = () => {
   return (
     <MyView>
       <TextCoctel>Encuentra las mejores recetas en Cócteles</TextCoctel>
+      
+      <SearchBar/>
       <ButtonContainer>
         <TextSearch> Filtros</TextSearch>
         <SearchBotton
