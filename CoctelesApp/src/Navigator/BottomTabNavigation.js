@@ -4,12 +4,10 @@ import HomeScreen from "../Screen/HomeScreen";
 import FavouriteScreen from "../Screen/FavouriteScreen";
 import ProfileScreen from "../Screen/ProfileScreen";
 
-
 const Tab = createBottomTabNavigator();
 
 const MyBottomTab = () => {
   return (
-    
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
@@ -22,7 +20,6 @@ const MyBottomTab = () => {
           paddingTop: 8,
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
-          
         },
 
         tabBarInactiveTintColor: "#FFFFFF",
@@ -30,17 +27,16 @@ const MyBottomTab = () => {
         tabBarPressColor: "rgba(243, 48, 95, 0.7)",
       }}
     >
-         
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ color }) => (
             <FontAwesome name="home" size={25} color={color} />
           ),
 
-         headerShown:false
-          
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -50,7 +46,7 @@ const MyBottomTab = () => {
           tabBarIcon: ({ color }) => (
             <FontAwesome name="heart" size={25} color={color} />
           ),
-          headerShown:false,
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -60,7 +56,7 @@ const MyBottomTab = () => {
           tabBarIcon: ({ color }) => (
             <FontAwesome name="user" size={25} color={color} />
           ),
-          headerShown:false,
+          headerShown: false,
         }}
       />
     </Tab.Navigator>

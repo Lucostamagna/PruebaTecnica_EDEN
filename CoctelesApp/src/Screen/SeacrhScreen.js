@@ -1,11 +1,10 @@
-import React,{useState, useEffect} from "react";
-import { FlatList, Text, View } from "react-native";
+import React from "react";
+import { FlatList, View } from "react-native";
 import styled from "styled-components/native";
 import SearchBar from "../Components/SearchBar";
 
 const SeacrhScreen = ({ route }) => {
- 
-  const { result,searchText, setSearchText} = route.params;
+  const { result, searchText } = route.params;
 
   const CocktailCard = ({ item }) => {
     return (
@@ -35,11 +34,11 @@ const SeacrhScreen = ({ route }) => {
   };
   return (
     <View>
-      <SearchBar  initialValue={searchText} />
+      <SearchBar initialValue={searchText} />
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={result}
-        renderItem={({ item }) => <CocktailCard item={item} />} // Utiliza el componente de tarjeta de cóctel para renderizar cada resultado
+        renderItem={({ item }) => <CocktailCard item={item} />} 
         keyExtractor={(item) => item.idDrink}
       />
     </View>
@@ -53,7 +52,7 @@ const CardContainer = styled.View`
   padding: 10px;
   margin-vertical: -40px;
   margin-top: 50px;
-  
+
   margin-horizontal: 50px;
   border-width: 1px;
   width: 300px;

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { EvilIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
+import { EvilIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styled from "styled-components/native";
-import { TouchableOpacity } from "react-native";
 import { searchCocktailByName } from "../Api/Request";
+
+
 const SearchBar = ({ initialValue }) => {
   const [searchText, setSearchText] = useState("");
   const navigation = useNavigation();
@@ -49,7 +51,6 @@ const SearchBar = ({ initialValue }) => {
         <Input
           placeholder="Buscar"
           onChangeText={setSearchText}
-          // value={searchText}
           onSubmitEditing={onSubmitEditing}
           value={initialValue}
         />

@@ -12,10 +12,7 @@ const Stack = createStackNavigator();
 
 export default function MyStack() {
   return (
-    
-    <Stack.Navigator
-  
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name="OnBoarding"
         component={OnBoardingScreen}
@@ -34,14 +31,29 @@ export default function MyStack() {
         name="Root"
         component={MyBottomTab}
         options={{
-        header: () => <CustomHeader/>,
-          
+          header: () => <CustomHeader />,
         }}
       />
       <Stack.Screen name="Favourite" component={FavouriteScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Search" component={SeacrhScreen} options={{ title: 'Búsqueda', headerStyle: { backgroundColor: '#222222' }, headerTintColor: 'white' }} />
-      <Stack.Screen name="MySearch" component={MySearch} options={{ title: 'Resultado de la búsqueda', headerStyle: { backgroundColor: '#222222' }, headerTintColor: 'white' }} />
+      <Stack.Screen
+        name="Search"
+        component={SeacrhScreen}
+        options={{
+          title: "Búsqueda",
+          headerStyle: { backgroundColor: "#222222" },
+          headerTintColor: "white",
+        }}
+      />
+      <Stack.Screen
+        name="MySearch"
+        component={MySearch}
+        options={{
+          title: "Resultado de la búsqueda",
+          headerStyle: { backgroundColor: "#222222" },
+          headerTintColor: "white",
+        }}
+      />
     </Stack.Navigator>
   );
 }

@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Modal,
-  Button,
-} from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Modal } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { searchCocktailByName } from "../Api/Request";
+import { Entypo } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import SearchBar from "../Components/SearchBar";
-import { Entypo } from "@expo/vector-icons";
+import { searchCocktailByName } from "../Api/Request";
+
 const MySearch = () => {
   const [savedSearches, setSavedSearches] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
@@ -34,9 +28,6 @@ const MySearch = () => {
     } catch (error) {
       console.error("Error al realizar la búsqueda:", error);
     }
-  };
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
   };
 
   useEffect(() => {
@@ -94,7 +85,6 @@ const MySearch = () => {
             <FlatList
               showsHorizontalScrollIndicator={false}
               data={savedSearches}
-              
               renderItem={({ item }) => (
                 <TouchableOpacity
                   onPress={() => {
@@ -102,10 +92,10 @@ const MySearch = () => {
                     setModalVisible(false);
                   }}
                 >
-                  <View style={{ flexDirection: "row", padding: 8 }}>
+                  <ListItemContainer>
                     <Entypo name="back-in-time" size={24} color="black" />
                     <ModalItem>{item}</ModalItem>
-                  </View>
+                  </ListItemContainer>
                 </TouchableOpacity>
               )}
               keyExtractor={(item, index) => index.toString()}
@@ -187,14 +177,7 @@ const TextTitle = styled.Text`
   font-weight: bold;
   text-align: center;
 `;
-const TextCoctel = styled.Text`
-  font-size: 30px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 15px;
-  text-align: left;
-  margin: 12px;
-`;
+
 const TextResult = styled.Text`
   font-size: 18px;
   font-weight: bold;
@@ -238,9 +221,9 @@ const TextReceta = styled.Text`
   text-align: center;
   font-size: 14px;
 `;
-const ViewBottom = styled.View`
-  height: 150px;
-  margin-bottom: -60px;
+export const ListItemContainer = styled.View`
+  flex-direction: row;
+  padding: 8px;
 `;
 
 export default MySearch;

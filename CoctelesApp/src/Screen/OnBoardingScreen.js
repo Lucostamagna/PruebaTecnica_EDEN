@@ -1,8 +1,8 @@
 import React from "react";
-import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import { Colors } from "../Constant/Color";
 import Button from "../Components/Botton";
+import styled from "styled-components/native";
 
 const OnBoardingScreen = () => {
   const navigation = useNavigation();
@@ -10,12 +10,10 @@ const OnBoardingScreen = () => {
   return (
     <MyView>
       <StyledImage source={require("../../assets/logoCoctel.png")} />
-   
-        <Button
-          title={"Iniciar sesión"}
-          onPress={() => navigation.navigate("Login")}
-        />
-      
+      <Button
+        title={"Iniciar sesión"}
+        onPress={() => navigation.navigate("Login")}
+      />
     </MyView>
   );
 };

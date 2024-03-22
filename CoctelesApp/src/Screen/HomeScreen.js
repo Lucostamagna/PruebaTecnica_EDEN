@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { FlatList, SafeAreaView, ScrollView, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import styled from "styled-components/native";
 import FilterButtons from "../Components/FilterBottom";
 import SearchBar from "../Components/SearchBar";
@@ -13,14 +11,11 @@ import {
 } from "../Api/Request";
 
 const HomeScreen = () => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [cocktails, setCocktails] = useState([]);
-  
 
   useEffect(() => {
     handleSearchCocktailByName("");
   }, []);
- 
 
   const handleSearchCocktailByName = async (name) => {
     const drinks = await searchCocktailByName(name);
@@ -42,7 +37,6 @@ const HomeScreen = () => {
     setCocktails(categoryDrinks);
   };
 
-
   const CocktailCard = ({ item }) => {
     return (
       <CardContainer>
@@ -62,7 +56,6 @@ const HomeScreen = () => {
         <DescriptionText numberOfLines={4} ellipsizeMode="tail">
           {item.strInstructions}
         </DescriptionText>
-
         <ButtonReceta>
           <TextReceta> Ver receta</TextReceta>
         </ButtonReceta>
@@ -75,8 +68,7 @@ const HomeScreen = () => {
         <MyView>
           <TextCoctel>Encuentra las mejores recetas en Cócteles</TextCoctel>
           <TextTragos> ¿Qué tragos te gustaría preparar hoy?</TextTragos>
-          <SearchBar/>
-
+          <SearchBar />
           <ViewBottom>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <FilterButtons
@@ -89,14 +81,14 @@ const HomeScreen = () => {
               />
             </ScrollView>
           </ViewBottom>
-          <View style={{ marginBottom: "5%", marginTop: "1%" }}>
+          <CointainerFlatList>
             <FlatList
               data={cocktails}
               horizontal
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => <CocktailCard item={item} />}
             />
-          </View>
+          </CointainerFlatList>
         </MyView>
       </ScrollView>
     </SafeAreaView>
@@ -189,5 +181,9 @@ const ViewBottom = styled.View`
   height: 150px;
   margin-bottom: -60px;
 `;
+const CointainerFlatList = styled.View`
+ margin-bottom: 5%;
+ margin-top: 1%;
 
+`;
 export default HomeScreen;
