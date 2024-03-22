@@ -32,6 +32,7 @@ Esta simulación de inicio de sesión se proporciona únicamente con fines de de
 - React Native
 - Expo
 - AsyncStorage
+- Styled Component
 - Navegación 
 - Optimizado para iOS y Android 📱
 
