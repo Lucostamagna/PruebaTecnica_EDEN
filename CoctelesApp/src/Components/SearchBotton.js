@@ -1,16 +1,31 @@
+import React, {useState} from "react";
 import styled from "styled-components/native";
 import { Colors } from "../Constant/Color";
 
 const SearchBotton= ({ title, onPress }) => {
+  const [pressed, setPressed] = useState(false);
+
+  const handlePressIn = () => {
+    setPressed(true);
+    onPress();
+  };
+
+  const handlePressOut = () => {
+    setPressed(false);
+  };
+
   return (
-    <MyButton onPress={onPress}  activeOpacity={0.8}>
-      <MyText>{title}</MyText>
+    <MyButton
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      pressed={pressed}
+      activeOpacity={0.8}>
+      <MyText pressed={pressed}>{title}</MyText>
     </MyButton>
   );
 };
-
 const MyButton = styled.TouchableOpacity`
-background-color: ${(props) => (props.disabled ? Colors.background: "white")};
+background-color: ${({ pressed }) => (pressed ? 'gray' : 'white')};
   border-radius: 30px;
   flex: 1;
   border-color: gray;
