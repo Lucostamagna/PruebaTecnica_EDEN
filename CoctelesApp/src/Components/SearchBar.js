@@ -12,11 +12,11 @@ const SearchBar = ({ initialValue }) => {
   const [searchText, setSearchText] = useState("");
   const navigation = useNavigation();
 
-  const onSubmitEditing = () => {
+ const onSubmitEditing = () => {
     setSearchText(searchText);
     handleSearch();
   };
-  const handleSearch = async () => {
+ const handleSearch = async () => {
     if (searchText.trim() !== "") {
       try {
         const result = await searchCocktailByName(searchText.trim());

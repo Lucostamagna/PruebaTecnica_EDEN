@@ -107,6 +107,7 @@ const MySearch = () => {
 
       <TextResult>Tus últimas búsqueda:</TextResult>
       <FlatList
+        showsHorizontalScrollIndicator={false}
         horizontal
         data={searchResults}
         renderItem={({ item }) => <CocktailCard item={item} />}
@@ -117,7 +118,7 @@ const MySearch = () => {
 };
 const OpenModalButton = styled.TouchableOpacity`
   background-color: #ffde59;
-  width: 40%;
+  width: 45%;
   height: 7%;
   padding: 10px;
   border-radius: 15px;

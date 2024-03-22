@@ -33,7 +33,7 @@ const SeacrhScreen = ({ route }) => {
     );
   };
   return (
-    <View>
+    <ViewContainer >
       <SearchBar initialValue={searchText} />
       <FlatList
         showsHorizontalScrollIndicator={false}
@@ -41,7 +41,7 @@ const SeacrhScreen = ({ route }) => {
         renderItem={({ item }) => <CocktailCard item={item} />} 
         keyExtractor={(item) => item.idDrink}
       />
-    </View>
+    </ViewContainer >
   );
 };
 
@@ -60,7 +60,9 @@ const CardContainer = styled.View`
   border-color: #ddd;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
-
+const ViewContainer  = styled.View`
+margin-bottom:90px;
+`;
 const CocktailImage = styled.Image`
   width: 270px;
   height: 160px;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, SafeAreaView, ScrollView, View } from "react-native";
+import { FlatList, SafeAreaView, ScrollView,RefreshControl  } from "react-native";
 import styled from "styled-components/native";
 import FilterButtons from "../Components/FilterBottom";
 import SearchBar from "../Components/SearchBar";
@@ -12,10 +12,21 @@ import {
 
 const HomeScreen = () => {
   const [cocktails, setCocktails] = useState([]);
+  const [refreshing, setRefreshing] = useState(false); 
 
   useEffect(() => {
     handleSearchCocktailByName("");
   }, []);
+  
+const onRefresh = async () => {
+    setRefreshing(true); 
+    await handleSearchCocktailByName("");
+   
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 3000);
+  };
 
   const handleSearchCocktailByName = async (name) => {
     const drinks = await searchCocktailByName(name);
@@ -64,7 +75,12 @@ const HomeScreen = () => {
   };
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView   refreshControl={ 
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh} 
+          />
+        }>
         <MyView>
           <TextCoctel>Encuentra las mejores recetas en Cócteles</TextCoctel>
           <TextTragos> ¿Qué tragos te gustaría preparar hoy?</TextTragos>
