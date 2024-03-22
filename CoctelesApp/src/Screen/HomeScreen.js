@@ -15,13 +15,12 @@ import {
 const HomeScreen = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [cocktails, setCocktails] = useState([]);
-  const navigation = useNavigation();
-  console.log(cocktails);
+  
 
   useEffect(() => {
     handleSearchCocktailByName("");
   }, []);
-  console.log(handleSearchCocktailByName);
+ 
 
   const handleSearchCocktailByName = async (name) => {
     const drinks = await searchCocktailByName(name);
@@ -43,33 +42,7 @@ const HomeScreen = () => {
     setCocktails(categoryDrinks);
   };
 
-  const handleSearch = async () => {
-    if (searchTerm.trim() !== "") {
-      try {
-        const result = await searchCocktailByName(searchTerm.trim());
 
-        navigation.navigate("Search", { result, searchTerm });
-        setSearchTerm("");
-        await saveSearchTerm(searchTerm.trim());
-      } catch (error) {
-        console.error("Error de búsqueda:", error);
-      }
-    } else {
-      setCocktails([]);
-    }
-  };
-  const saveSearchTerm = async (term) => {
-    try {
-      const searches = await AsyncStorage.getItem("searches");
-      const parsedSearches = searches ? JSON.parse(searches) : [];
-
-      parsedSearches.push(term);
-      console.log(parsedSearches);
-      await AsyncStorage.setItem("searches", JSON.stringify(parsedSearches));
-    } catch (error) {
-      console.error("Error al guardar la búsqueda:", error);
-    }
-  };
   const CocktailCard = ({ item }) => {
     return (
       <CardContainer>
@@ -102,10 +75,7 @@ const HomeScreen = () => {
         <MyView>
           <TextCoctel>Encuentra las mejores recetas en Cócteles</TextCoctel>
           <TextTragos> ¿Qué tragos te gustaría preparar hoy?</TextTragos>
-          <SearchBar
-            setSearchTerm={setSearchTerm}
-            handleSearch={handleSearch}
-          />
+          <SearchBar/>
 
           <ViewBottom>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>

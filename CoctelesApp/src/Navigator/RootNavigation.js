@@ -3,8 +3,7 @@ import MyStack from "./StackNavigation";
 
 export default function RootNavigator() {
   return (
-    <NavigationContainer
-   >
+    <NavigationContainer>
       <MyStack />
     </NavigationContainer>
   );

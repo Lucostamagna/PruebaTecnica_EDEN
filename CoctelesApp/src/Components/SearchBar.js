@@ -1,32 +1,60 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { EvilIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native";
-
-const SearchBar = ({ setSearchTerm, handleSearch }) => {
+import { searchCocktailByName } from "../Api/Request";
+const SearchBar = ({ initialValue }) => {
   const [searchText, setSearchText] = useState("");
   const navigation = useNavigation();
+
   const onSubmitEditing = () => {
-    setSearchTerm(searchText);
+    setSearchText(searchText);
     handleSearch();
+  };
+  const handleSearch = async () => {
+    if (searchText.trim() !== "") {
+      try {
+        const result = await searchCocktailByName(searchText.trim());
+
+        navigation.navigate("Search", { result, searchText });
+
+        await saveSearchTerm(searchText.trim());
+        setSearchText("");
+      } catch (error) {
+        console.error("Error de búsqueda:", error);
+      }
+    } else {
+      setCocktails([]);
+    }
+  };
+  const saveSearchTerm = async (term) => {
+    try {
+      const searches = await AsyncStorage.getItem("searches");
+      const parsedSearches = searches ? JSON.parse(searches) : [];
+      parsedSearches.push(term);
+      console.log(parsedSearches);
+      await AsyncStorage.setItem("searches", JSON.stringify(parsedSearches));
+    } catch (error) {
+      console.error("Error al guardar la búsqueda:", error);
+    }
   };
   return (
     <Container>
       <InputContainer>
-      <TouchableOpacity onPress={() => navigation.navigate("MySearch")}>
-      <EvilIcons name="search" size={24} color="black" />
-      </TouchableOpacity>
-        
+        <TouchableOpacity onPress={() => navigation.navigate("MySearch")}>
+          <EvilIcons name="search" size={24} color="black" />
+        </TouchableOpacity>
+
         <Input
           placeholder="Buscar"
           onChangeText={setSearchText}
-          value={searchText}
+          // value={searchText}
           onSubmitEditing={onSubmitEditing}
-         
+          value={initialValue}
         />
-
         <MaterialCommunityIcons name="microphone" size={24} color="black" />
       </InputContainer>
     </Container>

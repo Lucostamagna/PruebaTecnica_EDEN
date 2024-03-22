@@ -1,8 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
-import { Colors } from "../Constant/Color";
 
-const SearchBotton= ({ title, onPress }) => {
+const SearchBotton = ({ title, onPress }) => {
   const [pressed, setPressed] = useState(false);
 
   const handlePressIn = () => {
@@ -19,13 +18,14 @@ const SearchBotton= ({ title, onPress }) => {
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       pressed={pressed}
-      activeOpacity={0.8}>
+      activeOpacity={0.8}
+    >
       <MyText pressed={pressed}>{title}</MyText>
     </MyButton>
   );
 };
 const MyButton = styled.TouchableOpacity`
-background-color: ${({ pressed }) => (pressed ? 'gray' : 'white')};
+  background-color: ${({ pressed }) => (pressed ? "gray" : "white")};
   border-radius: 30px;
   flex: 1;
   border-color: gray;
@@ -34,15 +34,12 @@ background-color: ${({ pressed }) => (pressed ? 'gray' : 'white')};
   height: 35%;
   padding: 10px;
   justify-content: center;
- 
-  margin-right: 8px;
- 
-  align-items: center;
 
+  margin-right: 8px;
+
+  align-items: center;
 `;
 const MyText = styled.Text`
   font-size: 15px;
- 
- 
 `;
 export default SearchBotton;

@@ -3,7 +3,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import HomeScreen from "../Screen/HomeScreen";
 import FavouriteScreen from "../Screen/FavouriteScreen";
 import ProfileScreen from "../Screen/ProfileScreen";
-import CustomHeader from "../Components/CustomHeader";
 
 
 const Tab = createBottomTabNavigator();

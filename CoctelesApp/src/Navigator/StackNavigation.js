@@ -1,7 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import OnBoardingScreen from "../Screen/OnBoardingScreen";
 import LoginScreen from "../Screen/LoginScreen";
-import HomeScreen from "../Screen/HomeScreen";
 import FavouriteScreen from "../Screen/FavouriteScreen";
 import ProfileScreen from "../Screen/ProfileScreen";
 import MyBottomTab from "./BottomTabNavigation";

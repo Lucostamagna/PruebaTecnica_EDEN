@@ -5,8 +5,8 @@ import SearchBar from "../Components/SearchBar";
 
 const SeacrhScreen = ({ route }) => {
  
-  const { result,searchTerm  } = route.params;
- 
+  const { result,searchText } = route.params;
+ console.log('pantalla busqueda', searchText)
   const CocktailCard = ({ item }) => {
     return (
       <CardContainer>
@@ -35,7 +35,7 @@ const SeacrhScreen = ({ route }) => {
   };
   return (
     <View>
-      <SearchBar  initialValue={searchTerm } />
+      <SearchBar  initialValue={searchText} />
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={result}
