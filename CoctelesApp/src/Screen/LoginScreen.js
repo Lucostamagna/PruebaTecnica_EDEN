@@ -39,7 +39,11 @@ const LoginScreen = () => {
       <MyText>Ingresa tus datos</MyText>
       <ViewContainer>
         <TextInput> Correo electrónico </TextInput>
-        <Input label={"Email"} value={email} onChangeText={setEmail} />
+        <Input label={"Email"} value={email} onChangeText={(text)=>{
+          setEmail(text.trim())
+        }} />
+
+       
         <TextInput> Contraseña </TextInput>
         <InputContainer>
           <Input
