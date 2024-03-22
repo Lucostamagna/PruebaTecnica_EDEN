@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FlatList, ScrollView, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from "styled-components/native";
 import FilterButtons from "../Components/FilterBottom";
 import SearchBar from "../Components/SearchBar";
@@ -47,8 +48,10 @@ const HomeScreen = () => {
     if (searchTerm.trim() !== "") {
       try {
         const result = await searchCocktailByName(searchTerm.trim());
+      
+        navigation.navigate("Search", { result,searchTerm  });
         setSearchTerm("");
-        navigation.navigate("Search", { result });
+        await saveSearchTerm(searchTerm.trim());
       } catch (error) {
         console.error("Error de búsqueda:", error);
       }
@@ -56,7 +59,19 @@ const HomeScreen = () => {
       setCocktails([]);
     }
   };
+  const saveSearchTerm = async (term) => {
+    try {
+      const searches = await AsyncStorage.getItem('searches');
+      const parsedSearches = searches ? JSON.parse(searches) : [];
 
+     
+      parsedSearches.push(term);
+console.log('ppppppppppp',parsedSearches)
+      await AsyncStorage.setItem('searches', JSON.stringify(parsedSearches));
+    } catch (error) {
+      console.error('Error al guardar la búsqueda:', error);
+    }
+  };
   const CocktailCard = ({ item }) => {
     return (
       <CardContainer>

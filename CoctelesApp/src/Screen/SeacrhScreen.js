@@ -1,10 +1,12 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import { FlatList, Text, View } from "react-native";
 import styled from "styled-components/native";
 import SearchBar from "../Components/SearchBar";
 
 const SeacrhScreen = ({ route }) => {
-  const { result } = route.params;
+ 
+  const { result,searchTerm  } = route.params;
+ 
   const CocktailCard = ({ item }) => {
     return (
       <CardContainer>
@@ -33,7 +35,7 @@ const SeacrhScreen = ({ route }) => {
   };
   return (
     <View>
-      <SearchBar />
+      <SearchBar  initialValue={searchTerm } />
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={result}
@@ -51,6 +53,7 @@ const CardContainer = styled.View`
   padding: 10px;
   margin-vertical: -40px;
   margin-top: 50px;
+  
   margin-horizontal: 50px;
   border-width: 1px;
   width: 300px;
