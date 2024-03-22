@@ -12,11 +12,10 @@ import {
 } from "../Api/Request";
 
 const HomeScreen = () => {
-  const navigation = useNavigation();
+ 
   const [searchTerm, setSearchTerm] = useState("");
   const [cocktails, setCocktails] = useState([]);
-  
-
+  const navigation = useNavigation();
   console.log(cocktails);
 
   useEffect(() => {
@@ -47,9 +46,9 @@ const HomeScreen = () => {
   const handleSearch = async () => {
     if (searchTerm.trim() !== "") {
       try {
-        const searchResult = await searchCocktailByName(searchTerm.trim());
+        const result = await searchCocktailByName(searchTerm.trim());
         setSearchTerm("");
-        navigation.navigate("Search", { searchResult });
+        navigation.navigate("Search", { result });
       } catch (error) {
         console.error("Error de búsqueda:", error);
       }
@@ -61,15 +60,25 @@ const HomeScreen = () => {
   const CocktailCard = ({ item }) => {
     return (
       <CardContainer>
-        <Text>{item.strIngredient}</Text>
-        <Text>{item.strDescription}</Text>
+        {item.strIngredient && (
+          <IngredientTitle>{item.strIngredient}</IngredientTitle>
+        )}
+        {item.strDescription && (
+          <TextIngredient numberOfLines={8}>
+            {item.strDescription}
+          </TextIngredient>
+        )}
         <CocktailImage source={{ uri: item.strDrinkThumb }} />
-        <TextTitle>{item.strDrink}</TextTitle>
+        <ViewTitle>
+          <TextTitle>{item.strDrink}</TextTitle>
+        </ViewTitle>
+
         <DescriptionText numberOfLines={4} ellipsizeMode="tail">
           {item.strInstructions}
         </DescriptionText>
+
         <ButtonReceta>
-          <Text> hola</Text>
+          <TextReceta> Ver receta</TextReceta>
         </ButtonReceta>
       </CardContainer>
     );
@@ -81,14 +90,16 @@ const HomeScreen = () => {
         <TextTragos> ¿Qué tragos te gustaría preparar hoy?</TextTragos>
         <SearchBar setSearchTerm={setSearchTerm} handleSearch={handleSearch} />
 
-        <ViewBottom >
+        <ViewBottom>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <FilterButtons
-            handleSearchCocktailByName={handleSearchCocktailByName}
-            handleSearchCocktailByIngredients={handleSearchCocktailByIngredients}
-            handleFetchRandomCocktail={handleFetchRandomCocktail}
-            handleFetchCategoryCocktail={handleFetchCategoryCocktail}
-          />  
+              handleSearchCocktailByName={handleSearchCocktailByName}
+              handleSearchCocktailByIngredients={
+                handleSearchCocktailByIngredients
+              }
+              handleFetchRandomCocktail={handleFetchRandomCocktail}
+              handleFetchCategoryCocktail={handleFetchCategoryCocktail}
+            />
           </ScrollView>
         </ViewBottom>
         <View style={{ marginBottom: "5%", marginTop: "1%" }}>
@@ -108,26 +119,32 @@ const MyView = styled.View`
   flex: 1;
 `;
 const CardContainer = styled.View`
-  background-color: white;
+  background-color: #ffffff;
   overflow: hidden;
   border-radius: 10px;
   padding: 10px;
   margin-vertical: 1px;
   margin-horizontal: 5px;
   border-width: 1px;
-  border-color: #ddd; /* Color del borde */
+  border-color: #ddd;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 const CocktailImage = styled.Image`
-  width: 230px;
+  width: 235px;
   height: 160px;
-  margin-top: -50px;
-  border-top-left-radius: 15px; /* Redondea el borde superior izquierdo */
+  margin-top: 2px;
+  border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+`;
+
+const ViewTitle = styled.View`
+  width: 90%;
 `;
 const TextTitle = styled.Text`
   font-size: 20px;
-  margin-top: 5px;
+  margin-top: 10px;
   font-weight: bold;
+  text-align: center;
 `;
 const TextCoctel = styled.Text`
   font-size: 30px;
@@ -146,25 +163,43 @@ const TextTragos = styled.Text`
   margin: 12px;
 `;
 const DescriptionText = styled.Text`
-  font-size: 16px;
+  font-size: 15px;
   margin-top: 5px;
   overflow: hidden;
-  width: 150px;
+  margin-horizontal: 12px;
+  width: 200px;
+`;
+const TextIngredient = styled.Text`
+  font-size: 15px;
+  margin-top: 15px;
+  overflow: hidden;
+  margin-horizontal: 12px;
+  width: 200px;
+  margin-bottom: -90px;
+`;
+const IngredientTitle = styled.Text`
+  font-size: 20px;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
 `;
 const ButtonReceta = styled.TouchableOpacity`
   background-color: yellow;
   border-radius: 20px;
   padding: 15px;
-  width: 100%;
-  height: 10%;
+  width: 50%;
+  height: 14%;
   align-self: center;
   margin-top: 20px;
 `;
+const TextReceta = styled.Text`
+  font-weight: bold;
+  text-align: center;
+  font-size: 14px;
+`;
 const ViewBottom = styled.View`
-
   height: 150px;
   margin-bottom: -60px;
 `;
-
 
 export default HomeScreen;

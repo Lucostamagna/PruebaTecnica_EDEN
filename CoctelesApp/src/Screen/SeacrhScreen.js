@@ -1,41 +1,48 @@
-import React from 'react'
-import { FlatList,  Text, View } from "react-native";
+import React from "react";
+import { FlatList, Text, View } from "react-native";
 import styled from "styled-components/native";
-import SearchBar from '../Components/SearchBar';
+import SearchBar from "../Components/SearchBar";
 
 const SeacrhScreen = ({ route }) => {
-
-  const { result} = route.params;
+  const { result } = route.params;
   const CocktailCard = ({ item }) => {
     return (
       <CardContainer>
-        <Text>{item.strIngredient}</Text>
-        <Text>{item.strDescription}</Text>
+        {item.strIngredient && (
+          <IngredientTitle>{item.strIngredient}</IngredientTitle>
+        )}
+        {item.strDescription && (
+          <TextIngredient numberOfLines={8}>
+            {item.strDescription}
+          </TextIngredient>
+        )}
         <CocktailImage source={{ uri: item.strDrinkThumb }} />
-        <TextTitle>{item.strDrink}</TextTitle>
+        <ViewTitle>
+          <TextTitle>{item.strDrink}</TextTitle>
+        </ViewTitle>
+
         <DescriptionText numberOfLines={4} ellipsizeMode="tail">
           {item.strInstructions}
         </DescriptionText>
+
         <ButtonReceta>
-          <Text> hola</Text>
+          <TextReceta> Ver receta</TextReceta>
         </ButtonReceta>
       </CardContainer>
     );
   };
   return (
-   
     <View>
-      <SearchBar  />
+      <SearchBar />
       <FlatList
-     
+        showsHorizontalScrollIndicator={false}
         data={result}
         renderItem={({ item }) => <CocktailCard item={item} />} // Utiliza el componente de tarjeta de cóctel para renderizar cada resultado
         keyExtractor={(item) => item.idDrink}
       />
     </View>
- 
-  )
-}
+  );
+};
 
 const CardContainer = styled.View`
   background-color: white;
@@ -47,41 +54,66 @@ const CardContainer = styled.View`
   margin-horizontal: 50px;
   border-width: 1px;
   width: 300px;
-  height: 350px;
-  border-color: #ddd; /* Color del borde */
+  height: 380px;
+  border-color: #ddd;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const CocktailImage = styled.Image`
-  width: 200px;
+  width: 270px;
   height: 160px;
-  margin-top: -50px;
-  border-top-left-radius: 15px; /* Redondea el borde superior izquierdo */
+  margin-top: 2px;
+  border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 `;
 
 const TextTitle = styled.Text`
   font-size: 20px;
-  margin-top: 5px;
+  margin-top: 10px;
   font-weight: bold;
+  text-align: center;
 `;
 
-
 const DescriptionText = styled.Text`
-  font-size: 16px;
+  font-size: 15px;
   margin-top: 5px;
   overflow: hidden;
-  width: 150px;
+  margin-horizontal: 12px;
+  width: 200px;
 `;
 const ButtonReceta = styled.TouchableOpacity`
   background-color: yellow;
   border-radius: 20px;
   padding: 15px;
-  width: 100%;
-  height: 10%;
+  width: 50%;
+  height: 14%;
   align-self: center;
   margin-top: 20px;
 `;
-export default SeacrhScreen
 
+const ViewTitle = styled.View`
+  width: 90%;
+`;
 
+const TextIngredient = styled.Text`
+  font-size: 15px;
+  margin-top: 15px;
+  overflow: hidden;
+  margin-horizontal: 12px;
+  width: 200px;
+  margin-bottom: -90px;
+`;
+const IngredientTitle = styled.Text`
+  font-size: 20px;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+`;
 
+const TextReceta = styled.Text`
+  font-weight: bold;
+  text-align: center;
+  font-size: 14px;
+`;
+
+export default SeacrhScreen;
