@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity,Modal, Button} from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Modal,
+  Button,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { searchCocktailByName } from "../Api/Request";
 import styled from "styled-components/native";
 import SearchBar from "../Components/SearchBar";
-
+import { Entypo } from "@expo/vector-icons";
 const MySearch = () => {
   const [savedSearches, setSavedSearches] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+
   const getSavedSearches = async () => {
     try {
       const searches = await AsyncStorage.getItem("searches");
@@ -36,7 +44,7 @@ const MySearch = () => {
       const searches = await getSavedSearches();
       setSavedSearches(searches);
       if (searches.length > 0) {
-        handleSearchSavedItem(searches[0]);
+        handleSearchSavedItem(searches[searches.length - 1]);
       }
     };
 
@@ -71,10 +79,9 @@ const MySearch = () => {
   };
   return (
     <MyView>
-      
-      <SearchBar  />
+      <SearchBar />
       <OpenModalButton onPress={() => setModalVisible(true)}>
-       
+        <Text> Historial de búsqueda</Text>
       </OpenModalButton>
       <Modal
         animationType="none"
@@ -84,44 +91,47 @@ const MySearch = () => {
       >
         <ModalContainer>
           <ModalContent>
-           
             <FlatList
-             showsHorizontalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
               data={savedSearches}
+              
               renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => { handleSearchSavedItem(item); setModalVisible(false); }}>
-                  <ModalItem>{item}</ModalItem>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleSearchSavedItem(item);
+                    setModalVisible(false);
+                  }}
+                >
+                  <View style={{ flexDirection: "row", padding: 8 }}>
+                    <Entypo name="back-in-time" size={24} color="black" />
+                    <ModalItem>{item}</ModalItem>
+                  </View>
                 </TouchableOpacity>
               )}
               keyExtractor={(item, index) => index.toString()}
               contentContainerStyle={{ paddingBottom: 10 }}
             />
-            
           </ModalContent>
         </ModalContainer>
       </Modal>
 
-      <Text>Resultados de la última búsqueda:</Text>
+      <TextResult>Tus últimas búsqueda:</TextResult>
       <FlatList
         horizontal
         data={searchResults}
-        renderItem={({ item }) => <CocktailCard item={item} />} // Utiliza el componente de la card de la bebida para renderizar cada resultado
+        renderItem={({ item }) => <CocktailCard item={item} />}
         keyExtractor={(item) => item.idDrink}
       />
     </MyView>
   );
 };
 const OpenModalButton = styled.TouchableOpacity`
-  background-color: lightblue;
+  background-color: #ffde59;
+  width: 40%;
+  height: 7%;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 15px;
   margin-bottom: 10px;
-`;
-
-const ButtonText = styled.Text`
-  font-size: 16px;
-  color: white;
-  text-align: center;
 `;
 
 const ModalContainer = styled.View`
@@ -139,27 +149,15 @@ const ModalContent = styled.View`
   max-height: 70%;
 `;
 
-const ModalTitle = styled.Text`
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-`;
-
 const ModalItem = styled.Text`
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 5px;
-`;
-
-const CloseButton = styled.TouchableOpacity`
-  background-color: lightblue;
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 10px;
+  margin-horizontal: 15px;
 `;
 
 const MyView = styled.View`
-width: '95%';
-margin-top:30px;
+  width: "95%";
+  margin-top: 30px;
 `;
 const CardContainer = styled.View`
   background-color: #ffffff;
@@ -197,11 +195,11 @@ const TextCoctel = styled.Text`
   text-align: left;
   margin: 12px;
 `;
-const TextTragos = styled.Text`
+const TextResult = styled.Text`
   font-size: 18px;
   font-weight: bold;
 
-  margin-top: 15px;
+  margin-top: 40px;
   text-align: left;
   margin: 12px;
 `;

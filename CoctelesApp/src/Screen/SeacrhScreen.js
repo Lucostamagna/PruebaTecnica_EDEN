@@ -5,8 +5,8 @@ import SearchBar from "../Components/SearchBar";
 
 const SeacrhScreen = ({ route }) => {
  
-  const { result,searchText } = route.params;
- console.log('pantalla busqueda', searchText)
+  const { result,searchText, setSearchText} = route.params;
+
   const CocktailCard = ({ item }) => {
     return (
       <CardContainer>

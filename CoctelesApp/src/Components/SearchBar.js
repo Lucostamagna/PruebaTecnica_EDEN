@@ -18,11 +18,9 @@ const SearchBar = ({ initialValue }) => {
     if (searchText.trim() !== "") {
       try {
         const result = await searchCocktailByName(searchText.trim());
-
-        navigation.navigate("Search", { result, searchText });
-
-        await saveSearchTerm(searchText.trim());
+        navigation.navigate("Search", { result,  searchText});
         setSearchText("");
+        await saveSearchTerm(searchText.trim());
       } catch (error) {
         console.error("Error de búsqueda:", error);
       }
