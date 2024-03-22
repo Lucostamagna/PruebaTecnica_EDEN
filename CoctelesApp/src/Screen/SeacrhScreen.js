@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, ScrollView, Text, View } from "react-native";
+import { FlatList,  Text, View } from "react-native";
 import styled from "styled-components/native";
 import SearchBar from '../Components/SearchBar';
 
@@ -25,8 +25,7 @@ const SeacrhScreen = ({ route }) => {
   return (
    
     <View>
-      <SearchBar/>
-      
+      <SearchBar  />
       <FlatList
      
         data={result}

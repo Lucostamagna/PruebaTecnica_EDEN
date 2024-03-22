@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from "react";
-import {
-  FlatList,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  TextInput,
-} from "react-native";
-import styled from "styled-components/native";
-import SearchBotton from "../Components/SearchBotton";
+import { FlatList, ScrollView, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import styled from "styled-components/native";
+import FilterButtons from "../Components/FilterBottom";
+import SearchBar from "../Components/SearchBar";
 import {
   searchCocktailByName,
   searchCocktailByIngredients,
   fetchRandomCocktail,
   fetchCategoryCocktail,
 } from "../Api/Request";
-import SearchBar from "../Components/SearchBar";
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
   const [searchTerm, setSearchTerm] = useState("");
   const [cocktails, setCocktails] = useState([]);
-  const navigation = useNavigation();
+  
+
+  console.log(cocktails);
+
   useEffect(() => {
     handleSearchCocktailByName("margarita");
   }, []);
+  console.log(handleSearchCocktailByName);
 
   const handleSearchCocktailByName = async () => {
     const drinks = await searchCocktailByName("margarita");
@@ -45,12 +43,13 @@ const HomeScreen = () => {
     const categoryDrinks = await fetchCategoryCocktail();
     setCocktails(categoryDrinks);
   };
+
   const handleSearch = async () => {
     if (searchTerm.trim() !== "") {
       try {
-        const result = await searchCocktailByName(searchTerm.trim());
+        const searchResult = await searchCocktailByName(searchTerm.trim());
         setSearchTerm("");
-        navigation.navigate("Search", { result });
+        navigation.navigate("Search", { searchResult });
       } catch (error) {
         console.error("Error de búsqueda:", error);
       }
@@ -82,30 +81,16 @@ const HomeScreen = () => {
         <TextTragos> ¿Qué tragos te gustaría preparar hoy?</TextTragos>
         <SearchBar setSearchTerm={setSearchTerm} handleSearch={handleSearch} />
 
-        <View style={{ marginBottom: -60, height: 150 }}>
+        <ViewBottom >
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <ButtonContainer>
-              <TextSearch> Filtros</TextSearch>
-              <SearchBotton
-                title={"Por nombre"}
-                onPress={() => handleSearchCocktailByName("margarita")}
-              />
-              <SearchBotton
-                title={"Por ingrediente"}
-                onPress={handleSearchCocktailByIngredients}
-              />
-              <SearchBotton
-                title={"Más elegido"}
-                onPress={handleFetchRandomCocktail}
-              />
-              <SearchBotton
-                title={"Por categoría"}
-                onPress={handleFetchCategoryCocktail}
-              />
-            </ButtonContainer>
+            <FilterButtons
+            handleSearchCocktailByName={handleSearchCocktailByName}
+            handleSearchCocktailByIngredients={handleSearchCocktailByIngredients}
+            handleFetchRandomCocktail={handleFetchRandomCocktail}
+            handleFetchCategoryCocktail={handleFetchCategoryCocktail}
+          />  
           </ScrollView>
-        </View>
-
+        </ViewBottom>
         <View style={{ marginBottom: "5%", marginTop: "1%" }}>
           <FlatList
             data={cocktails}
@@ -122,7 +107,6 @@ const HomeScreen = () => {
 const MyView = styled.View`
   flex: 1;
 `;
-
 const CardContainer = styled.View`
   background-color: white;
   overflow: hidden;
@@ -133,7 +117,6 @@ const CardContainer = styled.View`
   border-width: 1px;
   border-color: #ddd; /* Color del borde */
 `;
-
 const CocktailImage = styled.Image`
   width: 230px;
   height: 160px;
@@ -141,13 +124,11 @@ const CocktailImage = styled.Image`
   border-top-left-radius: 15px; /* Redondea el borde superior izquierdo */
   border-top-right-radius: 15px;
 `;
-
 const TextTitle = styled.Text`
   font-size: 20px;
   margin-top: 5px;
   font-weight: bold;
 `;
-
 const TextCoctel = styled.Text`
   font-size: 30px;
   font-weight: bold;
@@ -164,19 +145,6 @@ const TextTragos = styled.Text`
   text-align: left;
   margin: 12px;
 `;
-
-const ButtonContainer = styled.View`
-  flex-direction: row;
-  margin-right: 8px;
-  margin-top: 10px;
-  margin-bottom: -5px;
-`;
-const TextSearch = styled.Text`
-  font-size: 22px;
-  margin-right: 15px;
-  margin: 10px;
-`;
-
 const DescriptionText = styled.Text`
   font-size: 16px;
   margin-top: 5px;
@@ -192,4 +160,11 @@ const ButtonReceta = styled.TouchableOpacity`
   align-self: center;
   margin-top: 20px;
 `;
+const ViewBottom = styled.View`
+
+  height: 150px;
+  margin-bottom: -60px;
+`;
+
+
 export default HomeScreen;
