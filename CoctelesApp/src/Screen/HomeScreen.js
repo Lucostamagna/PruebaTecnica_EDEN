@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, ScrollView, Text, View } from "react-native";
+import { FlatList, SafeAreaView, ScrollView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styled from "styled-components/native";
 import FilterButtons from "../Components/FilterBottom";
 import SearchBar from "../Components/SearchBar";
@@ -13,19 +13,18 @@ import {
 } from "../Api/Request";
 
 const HomeScreen = () => {
- 
   const [searchTerm, setSearchTerm] = useState("");
   const [cocktails, setCocktails] = useState([]);
   const navigation = useNavigation();
   console.log(cocktails);
 
   useEffect(() => {
-    handleSearchCocktailByName("margarita");
+    handleSearchCocktailByName("");
   }, []);
   console.log(handleSearchCocktailByName);
 
-  const handleSearchCocktailByName = async () => {
-    const drinks = await searchCocktailByName("margarita");
+  const handleSearchCocktailByName = async (name) => {
+    const drinks = await searchCocktailByName(name);
     setCocktails(drinks);
   };
 
@@ -48,8 +47,8 @@ const HomeScreen = () => {
     if (searchTerm.trim() !== "") {
       try {
         const result = await searchCocktailByName(searchTerm.trim());
-      
-        navigation.navigate("Search", { result,searchTerm  });
+
+        navigation.navigate("Search", { result, searchTerm });
         setSearchTerm("");
         await saveSearchTerm(searchTerm.trim());
       } catch (error) {
@@ -61,15 +60,14 @@ const HomeScreen = () => {
   };
   const saveSearchTerm = async (term) => {
     try {
-      const searches = await AsyncStorage.getItem('searches');
+      const searches = await AsyncStorage.getItem("searches");
       const parsedSearches = searches ? JSON.parse(searches) : [];
 
-     
       parsedSearches.push(term);
-console.log('ppppppppppp',parsedSearches)
-      await AsyncStorage.setItem('searches', JSON.stringify(parsedSearches));
+      console.log(parsedSearches);
+      await AsyncStorage.setItem("searches", JSON.stringify(parsedSearches));
     } catch (error) {
-      console.error('Error al guardar la búsqueda:', error);
+      console.error("Error al guardar la búsqueda:", error);
     }
   };
   const CocktailCard = ({ item }) => {
@@ -99,34 +97,39 @@ console.log('ppppppppppp',parsedSearches)
     );
   };
   return (
-    <ScrollView>
-      <MyView>
-        <TextCoctel>Encuentra las mejores recetas en Cócteles</TextCoctel>
-        <TextTragos> ¿Qué tragos te gustaría preparar hoy?</TextTragos>
-        <SearchBar setSearchTerm={setSearchTerm} handleSearch={handleSearch} />
-
-        <ViewBottom>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <FilterButtons
-              handleSearchCocktailByName={handleSearchCocktailByName}
-              handleSearchCocktailByIngredients={
-                handleSearchCocktailByIngredients
-              }
-              handleFetchRandomCocktail={handleFetchRandomCocktail}
-              handleFetchCategoryCocktail={handleFetchCategoryCocktail}
-            />
-          </ScrollView>
-        </ViewBottom>
-        <View style={{ marginBottom: "5%", marginTop: "1%" }}>
-          <FlatList
-            data={cocktails}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => <CocktailCard item={item} />}
+    <SafeAreaView>
+      <ScrollView>
+        <MyView>
+          <TextCoctel>Encuentra las mejores recetas en Cócteles</TextCoctel>
+          <TextTragos> ¿Qué tragos te gustaría preparar hoy?</TextTragos>
+          <SearchBar
+            setSearchTerm={setSearchTerm}
+            handleSearch={handleSearch}
           />
-        </View>
-      </MyView>
-    </ScrollView>
+
+          <ViewBottom>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <FilterButtons
+                handleSearchCocktailByName={handleSearchCocktailByName}
+                handleSearchCocktailByIngredients={
+                  handleSearchCocktailByIngredients
+                }
+                handleFetchRandomCocktail={handleFetchRandomCocktail}
+                handleFetchCategoryCocktail={handleFetchCategoryCocktail}
+              />
+            </ScrollView>
+          </ViewBottom>
+          <View style={{ marginBottom: "5%", marginTop: "1%" }}>
+            <FlatList
+              data={cocktails}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => <CocktailCard item={item} />}
+            />
+          </View>
+        </MyView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

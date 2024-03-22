@@ -30,7 +30,5 @@ const StyledImage = styled.Image`
   margin-top: 40%;
   margin-left: 25%;
 `;
-const ButtonView = styled.View`
-  margin-top: 80px;
-`;
+
 export default OnBoardingScreen;

@@ -23,7 +23,7 @@ const MyBottomTab = () => {
           paddingTop: 8,
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
-          //  height: keyboardHeight > 0 ? 0 : 50,
+          
         },
 
         tabBarInactiveTintColor: "#FFFFFF",

@@ -3,7 +3,7 @@ import { Colors } from "../Constant/Color";
 
 const Button = ({ title, onPress }) => {
   return (
-    <MyButton onPress={onPress}>
+    <MyButton onPress={onPress} activeOpacity={0.8}>
       <MyText>{title}</MyText>
     </MyButton>
   );

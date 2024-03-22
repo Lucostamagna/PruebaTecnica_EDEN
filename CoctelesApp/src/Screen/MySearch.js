@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity,Modal, Button} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { searchCocktailByName } from "../Api/Request";
 import styled from "styled-components/native";
+import SearchBar from "../Components/SearchBar";
 
 const MySearch = () => {
   const [savedSearches, setSavedSearches] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-
+  const [modalVisible, setModalVisible] = useState(false);
   const getSavedSearches = async () => {
     try {
       const searches = await AsyncStorage.getItem("searches");
@@ -25,6 +26,9 @@ const MySearch = () => {
     } catch (error) {
       console.error("Error al realizar la búsqueda:", error);
     }
+  };
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
   };
 
   useEffect(() => {
@@ -66,18 +70,36 @@ const MySearch = () => {
     );
   };
   return (
-    <View style={{ width: "95%" }}>
-      <Text>Búsquedas Guardadas:</Text>
-      <FlatList
-        horizontal
-        data={savedSearches}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleSearchSavedItem(item)}>
-            <Text>{item}</Text>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
+    <MyView>
+      
+      <SearchBar  />
+      <OpenModalButton onPress={() => setModalVisible(true)}>
+       
+      </OpenModalButton>
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <ModalContainer>
+          <ModalContent>
+           
+            <FlatList
+             showsHorizontalScrollIndicator={false}
+              data={savedSearches}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => { handleSearchSavedItem(item); setModalVisible(false); }}>
+                  <ModalItem>{item}</ModalItem>
+                </TouchableOpacity>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              contentContainerStyle={{ paddingBottom: 10 }}
+            />
+            
+          </ModalContent>
+        </ModalContainer>
+      </Modal>
 
       <Text>Resultados de la última búsqueda:</Text>
       <FlatList
@@ -86,12 +108,58 @@ const MySearch = () => {
         renderItem={({ item }) => <CocktailCard item={item} />} // Utiliza el componente de la card de la bebida para renderizar cada resultado
         keyExtractor={(item) => item.idDrink}
       />
-    </View>
+    </MyView>
   );
 };
+const OpenModalButton = styled.TouchableOpacity`
+  background-color: lightblue;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+`;
+
+const ButtonText = styled.Text`
+  font-size: 16px;
+  color: white;
+  text-align: center;
+`;
+
+const ModalContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const ModalContent = styled.View`
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-height: 70%;
+`;
+
+const ModalTitle = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+const ModalItem = styled.Text`
+  font-size: 16px;
+  margin-bottom: 5px;
+`;
+
+const CloseButton = styled.TouchableOpacity`
+  background-color: lightblue;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+`;
 
 const MyView = styled.View`
-  flex: 1;
+width: '95%';
+margin-top:30px;
 `;
 const CardContainer = styled.View`
   background-color: #ffffff;
