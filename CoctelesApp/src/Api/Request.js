@@ -12,10 +12,10 @@ export const searchCocktailByName = async (name) => {
   }
 };
 
-export const searchCocktailByIngredients = async () => {
+export const searchCocktailByIngredients = async (ingredient) => {
   try {
     const response = await axios.get(
-      `https://www.thecocktaildb.com/api/json/v1/1/search.php?i=vodka`
+      `https://www.thecocktaildb.com/api/json/v1/1/search.php?i=${ingredient}`
     );
     return response.data.ingredients;
   } catch (error) {

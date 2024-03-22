@@ -13,11 +13,11 @@ const FilterButtons = ({
       <TextSearch> Filtros</TextSearch>
       <SearchBotton
         title={"Por nombre"}
-        onPress={() => handleSearchCocktailByName("margarita")}
+        onPress={() => handleSearchCocktailByName("")}
       />
       <SearchBotton
         title={"Por ingrediente"}
-        onPress={handleSearchCocktailByIngredients}
+        onPress={() => handleSearchCocktailByIngredients("")}
       />
       <SearchBotton title={"Más elegido"} onPress={handleFetchRandomCocktail} />
       <SearchBotton

@@ -33,8 +33,8 @@ const onRefresh = async () => {
     setCocktails(drinks);
   };
 
-  const handleSearchCocktailByIngredients = async () => {
-    const ingredients = await searchCocktailByIngredients();
+  const handleSearchCocktailByIngredients = async (ingredient) => {
+    const ingredients = await searchCocktailByIngredients(ingredient);
     setCocktails(ingredients);
   };
 
