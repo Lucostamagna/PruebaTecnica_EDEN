@@ -12,6 +12,22 @@ export const searchCocktailByName = async (name) => {
   }
 };
 
+// export const searchCocktailByName = async (name) => {
+//   try {
+//     const response = await fetch(
+//       `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`
+//     );
+
+//     if (!response.ok) {
+//       throw new Error("Error searching cocktail by name");
+//     }
+
+//     const data = await response.json();
+//     return data.drinks;
+//   } catch (error) {
+//     console.error("Error searching cocktail by name:", error);
+//     throw error;
+//   }
 export const searchCocktailByIngredients = async (ingredient) => {
   try {
     const response = await axios.get(

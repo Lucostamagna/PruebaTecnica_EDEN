@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
+import { TouchableOpacity} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Colors } from "../Constant/Color";
 import Button from "../Components/Botton";
 import { Feather } from "@expo/vector-icons";
 import Input from "../Components/Input";
-import Login from "../Api/Index";
-import { TouchableOpacity, Text } from "react-native";
+import { handleLogin } from "../Api/AsycnStorage";
+
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -19,20 +19,9 @@ const LoginScreen = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = () => {
-    Login({ email, password })
-      .then((user) => {
-        AsyncStorage.setItem("userData", JSON.stringify(user.data));
-        console.log("Datos del usuario guardados en AsyncStorage:", user.data);
-        console.log("Inicio de sesión exitoso:", user);
-        alert("Inicio de sesión exitoso");
-        navigation.navigate("Root");
-      })
-      .catch((error) => {
-        alert("Email o contraseña incorrectos", error);
-      });
-  };
-
+const handleLoginPress =()=>{
+  handleLogin({ email, password,navigation,})
+}
   return (
     <MyView>
       <StyledImage source={require("../../assets/logoPequeño.png")} />
@@ -64,7 +53,7 @@ const LoginScreen = () => {
           <TextPassword> Olvidé mi contraseña </TextPassword>
         </TouchableOpacity>
       </ViewContainer>
-      <Button title={"Iniciar sesión"} onPress={handleLogin} />
+      <Button title={"Iniciar sesión"} onPress={handleLoginPress} />
     </MyView>
   );
 };

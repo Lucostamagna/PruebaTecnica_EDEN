@@ -34,6 +34,7 @@ const SearchBar = ({ initialValue }) => {
     try {
       const searches = await AsyncStorage.getItem("searches");
       const parsedSearches = searches ? JSON.parse(searches) : [];
+      //object
       parsedSearches.push(term);
       console.log(parsedSearches);
       await AsyncStorage.setItem("searches", JSON.stringify(parsedSearches));
