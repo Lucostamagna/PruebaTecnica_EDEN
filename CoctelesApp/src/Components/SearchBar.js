@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { searchCocktailByName } from "../Api/Request";
+import { saveSearchTerm } from "../Api/AsycnStorage";
 
 
 const SearchBar = ({ initialValue }) => {
@@ -30,18 +30,7 @@ const SearchBar = ({ initialValue }) => {
       setCocktails([]);
     }
   };
-  const saveSearchTerm = async (term) => {
-    try {
-      const searches = await AsyncStorage.getItem("searches");
-      const parsedSearches = searches ? JSON.parse(searches) : [];
-      //object
-      parsedSearches.push(term);
-      console.log(parsedSearches);
-      await AsyncStorage.setItem("searches", JSON.stringify(parsedSearches));
-    } catch (error) {
-      console.error("Error al guardar la búsqueda:", error);
-    }
-  };
+
   return (
     <Container>
       <InputContainer>
