@@ -8,28 +8,32 @@ import { searchCocktailByName } from "../Api/Request";
 import { saveSearchTerm } from "../Api/AsycnStorage";
 
 
-const SearchBar = ({ initialValue }) => {
-  const [searchText, setSearchText] = useState("");
+const useSearchBar = (initialValue) => {
+  const [searchText, setSearchText] = useState(initialValue);
   const navigation = useNavigation();
 
- const onSubmitEditing = () => {
-    setSearchText(searchText);
-    handleSearch();
-  };
- const handleSearch = async () => {
+  const onSubmitEditing = async () => {
     if (searchText.trim() !== "") {
       try {
         const result = await searchCocktailByName(searchText.trim());
-        navigation.navigate("Search", { result,  searchText});
+        navigation.navigate("Search", { result, searchText });
         setSearchText("");
         await saveSearchTerm(searchText.trim());
       } catch (error) {
         console.error("Error de búsqueda:", error);
       }
     } else {
-      setCocktails([]);
+      // Handle empty search
     }
   };
+
+  return { searchText, setSearchText, onSubmitEditing };
+};
+
+const SearchBar = ({ initialValue }) => {
+  const { searchText, setSearchText, onSubmitEditing } = useSearchBar(
+    initialValue
+  );
 
   return (
     <Container>
@@ -42,7 +46,7 @@ const SearchBar = ({ initialValue }) => {
           placeholder="Buscar"
           onChangeText={setSearchText}
           onSubmitEditing={onSubmitEditing}
-          value={initialValue}
+          value={searchText}
         />
         <MaterialCommunityIcons name="microphone" size={24} color="black" />
       </InputContainer>
